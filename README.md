@@ -25,6 +25,7 @@ example: cd "C:\User\peter\Java_Final_Project\" ; ...
 - 主畫面
   <img src="https://i.imgur.com/rAOIcCr.png">
 - 設定畫面
-  <img src="https://i.imgur.com/Qih1gTG.png">
+  <img src="https://i.imgur.com/4XKDbE0.png">
 - 遊戲畫面
-  <img src="https://i.imgur.com/SCZ5pcN.png">
+  <img src="https://i.imgur.com/7H31RES.png">
+  <img src="https://i.imgur.com/vM9qu42.png">
