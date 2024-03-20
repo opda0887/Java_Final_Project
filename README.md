@@ -5,10 +5,10 @@
 在 VScode 的 terminal 中，輸入以下指令，來預覽遊戲畫面：
 
 ```
-cd "absolute\path\to\Final_Project\" ; if ($?) { javac -encoding UTF-8 Game.java } ; if ($?) { java Game }
+cd "absolute\path\to\Java_Final_Project\" ; if ($?) { javac -encoding UTF-8 Game.java } ; if ($?) { java Game }
 ```
 
-example: cd "C:\User\peter\Final_Project\" ; ...
+example: cd "C:\User\peter\Java_Final_Project\" ; ...
 
 ### 🌳 - 環境設定 & 推薦安裝的 VSCode 工具 (Env Setting & recommend exttensions)
 
