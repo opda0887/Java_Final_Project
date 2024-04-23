@@ -12,24 +12,30 @@ public class Game extends JFrame
     this.setTitle("Blue Shooting!");
 
     this.setSize(1280, 720);
-    //* it's for Full screen, if you want
+    //* code below it's for Full screen (but the align will be reassembled)
     // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     // this.setSize(screenSize);
 
     this.setUndecorated(true);
     this.setVisible(true);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);
+
+    // Set game icon
+    ImageIcon mainIcon = new ImageIcon("./src/img/main_icon.jpg");
+    this.setIconImage(mainIcon.getImage());
     
-    // Display loading screen
+    // Display loading screen (private)
     showLoadingScreen();
+
+    // main page background music (loop)
+    Tools.playMainBGM();
     
-    // After loading, switch to main screen
+    // After loading, switch to main screen (public)
     showMainScreen();
   }
 
 
-  // Method to display loading screen with fade-in effect
+  // Method to display loading screen with fade-in & fade-out effect
   private void showLoadingScreen() {
     JPanel loadingPanel = new JPanel() {
       float alpha = 0; // Initial alpha value for fade-in effect
@@ -99,7 +105,7 @@ public class Game extends JFrame
     this.revalidate();
     this.repaint();
     try {
-      Thread.sleep(4000); // Wait for 4 seconds
+      Thread.sleep(3150); // Wait for 3.2 seconds
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
@@ -108,8 +114,8 @@ public class Game extends JFrame
 
 
   // Method to show main screen
-  //! add background music (loop)
-  private void showMainScreen() {
+  //! some todos need to deal with
+  public void showMainScreen() {    
     JPanel mainPanel = new JPanel() {
       @Override
       protected void paintComponent(Graphics g) {
@@ -121,15 +127,30 @@ public class Game extends JFrame
 
         ImageIcon background1 = new ImageIcon("./src/img/main-page.jpg");
         g2d.drawImage(background1.getImage(), 0, 0, getWidth(), getHeight(), null);
+
+        // Set text color with alpha value
+        g2d.setColor(new Color(245, 241, 210, 255));
+        g2d.setFont(new Font("Microsoft YaHei", Font.BOLD, 30));
+
+        String text = "結束遊戲";
+        FontMetrics fm = g2d.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int x = (getWidth() - textWidth) / 10;
+        int y = getHeight() / 9 * 8;
+        g2d.drawString(text, x, y);
+
+        String text2 = "使用素材";
+        FontMetrics fm2 = g2d.getFontMetrics();
+        int textWidth2 = fm2.stringWidth(text2);
+        int x2 = (getWidth() - textWidth2) / 11 * 10;
+        int y2 = getHeight() / 9 * 8;
+        g2d.drawString(text2, x2, y2);
       }
     };
-    this.add(mainPanel);
 
     mainPanel.setLayout(null);  // set mainPanel to 絕對布局
 
     //? start button
-    //! adjust the button: style
-    //! decide the text size
     JButton startButton = new JButton("開始遊戲");
     Color customColor = new Color(100, 150, 200);
     startButton.setBackground(customColor);
@@ -139,6 +160,9 @@ public class Game extends JFrame
     startButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        Tools.basicClick_SE();
+        Tools.stopBGM();
+        Tools.playGameBGM();  // if has problem while switching pannel, then you can delete it
           //* enterGameScreen();
       }
     });
@@ -147,8 +171,6 @@ public class Game extends JFrame
     startButton.setBounds((int)(getWidth()*0.42), getHeight()/2, (int)(getWidth()*0.18), size_startButton.height*2);
     
     //? setting button
-    //! adjust the button: style
-    //! decide the text size
     JButton settingButton = new JButton("設定");
     settingButton.setBackground(Color.GRAY);
     settingButton.setForeground(Color.WHITE);
@@ -157,6 +179,7 @@ public class Game extends JFrame
     settingButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        Tools.basicClick_SE();
           //* enterSettingScreen();
       }
     });
@@ -166,7 +189,6 @@ public class Game extends JFrame
 
 
     //? end game icon
-    //! add description text
     ImageIcon imageIcon = new ImageIcon("./src/img/shutdown.png");
     JLabel label = new JLabel(imageIcon);
     label.setBounds((int)(getWidth()*0.095), getHeight()/3*2, imageIcon.getIconWidth(), imageIcon.getIconWidth());
@@ -181,8 +203,7 @@ public class Game extends JFrame
 
 
     //? source icon
-    //! add description text
-    //! edit the "openURL" to our source file
+    //todo: edit the "openURL" to our source file
     ImageIcon sourceIcon = new ImageIcon("./src/img/open-source.png");
     JLabel label_sourceIcon = new JLabel(sourceIcon);
     label_sourceIcon.setBounds((int)(getWidth()*0.81), getHeight()/3*2, sourceIcon.getIconWidth(), sourceIcon.getIconWidth());
@@ -190,6 +211,7 @@ public class Game extends JFrame
     label_sourceIcon.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
+        Tools.basicClick_SE();
         // open an url
         String url = "https://www.youtube.com";
         try {
@@ -208,14 +230,14 @@ public class Game extends JFrame
     mainPanel.add(label_sourceIcon);
 
 
-    //? end game icon
-    //! add description text
+    //? (windows/mac) menu bar icon
     ImageIcon guileIcon = new ImageIcon("./src/img/guile.png");
     JLabel label_guileIcon = new JLabel(guileIcon);
     label_guileIcon.setBounds((int)(getWidth()*0.72), (int)(getHeight()*0.23), guileIcon.getIconWidth(), guileIcon.getIconWidth());
     mainPanel.add(label_guileIcon);
 
 
+    this.add(mainPanel);
     this.revalidate();
     this.repaint();
   }
