@@ -25,7 +25,7 @@ public class Game extends JFrame
     this.setIconImage(mainIcon.getImage());
     
     // Display loading screen (private)
-    showLoadingScreen();
+    //showLoadingScreen();
 
     // main page background music (loop)
     Tools.playMainBGM();
@@ -163,7 +163,9 @@ public class Game extends JFrame
         Tools.basicClick_SE();
         Tools.stopBGM();
         Tools.playGameBGM();  // if has problem while switching pannel, then you can delete it
-          //* enterGameScreen();
+          
+          startGameScreen.startGame();
+          dispose();
       }
     });
     mainPanel.add(startButton);
