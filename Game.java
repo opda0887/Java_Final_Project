@@ -4,36 +4,37 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.*;
 
-public class Game extends JFrame
-{
+public class Game extends JFrame {
   static int current_score = 0;
-  
+  private settingScreen settingScreenInstance;
+  private JPanel mainPanel;
+
   public Game() {
     this.setTitle("Blue Shooting!");
 
     this.setSize(1280, 720);
-    //* code below it's for Full screen (but the align will be reassembled)
+    // * code below it's for Full screen (but the align will be reassembled)
     // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     // this.setSize(screenSize);
 
     this.setUndecorated(true);
     this.setVisible(true);
     this.setLocationRelativeTo(null);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Set game icon
     ImageIcon mainIcon = new ImageIcon("./src/img/main_icon.jpg");
     this.setIconImage(mainIcon.getImage());
-    
+
     // Display loading screen (private)
     showLoadingScreen();
 
     // main page background music (loop)
     Tools.playMainBGM();
-    
+
     // After loading, switch to main screen (public)
     showMainScreen();
   }
-
 
   // Method to display loading screen with fade-in & fade-out effect
   private void showLoadingScreen() {
@@ -90,7 +91,7 @@ public class Game extends JFrame
             return;
           }
         }
-        
+
         try {
           Thread.sleep(10); // for a smoother effect
         } catch (InterruptedException e) {
@@ -112,11 +113,10 @@ public class Game extends JFrame
     this.remove(loadingPanel);
   }
 
-
   // Method to show main screen
-  //! some todos need to deal with
-  public void showMainScreen() {    
-    JPanel mainPanel = new JPanel() {
+  // ! some todos need to deal with
+  public void showMainScreen() {
+    mainPanel = new JPanel() {
       @Override
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -148,9 +148,9 @@ public class Game extends JFrame
       }
     };
 
-    mainPanel.setLayout(null);  // set mainPanel to 絕對布局
+    mainPanel.setLayout(null); // set mainPanel to 絕對布局
 
-    //? start button
+    // ? start button
     JButton startButton = new JButton("開始遊戲");
     Color customColor = new Color(100, 150, 200);
     startButton.setBackground(customColor);
@@ -162,15 +162,16 @@ public class Game extends JFrame
       public void actionPerformed(ActionEvent e) {
         Tools.basicClick_SE();
         Tools.stopBGM();
-        Tools.playGameBGM();  // if has problem while switching pannel, then you can delete it
-          //* enterGameScreen();
+        Tools.playGameBGM(); // if has problem while switching pannel, then you can delete it
+        // * enterGameScreen();
       }
     });
     mainPanel.add(startButton);
     Dimension size_startButton = startButton.getPreferredSize();
-    startButton.setBounds((int)(getWidth()*0.42), getHeight()/2, (int)(getWidth()*0.18), size_startButton.height*2);
-    
-    //? setting button
+    startButton.setBounds((int) (getWidth() * 0.42), getHeight() / 2, (int) (getWidth() * 0.18),
+        size_startButton.height * 2);
+
+    // ? setting button
     JButton settingButton = new JButton("設定");
     settingButton.setBackground(Color.GRAY);
     settingButton.setForeground(Color.WHITE);
@@ -180,18 +181,20 @@ public class Game extends JFrame
       @Override
       public void actionPerformed(ActionEvent e) {
         Tools.basicClick_SE();
-          //* enterSettingScreen();
+        showSettingScreen();
+        // * enterSettingScreen();
       }
     });
     mainPanel.add(settingButton);
     Dimension size_settingButton = settingButton.getPreferredSize();
-    settingButton.setBounds((int)(getWidth()*0.42), getHeight()/3*2, (int)(getWidth()*0.18), size_settingButton.height*2);
+    settingButton.setBounds((int) (getWidth() * 0.42), getHeight() / 3 * 2, (int) (getWidth() * 0.18),
+        size_settingButton.height * 2);
 
-
-    //? end game icon
+    // ? end game icon
     ImageIcon imageIcon = new ImageIcon("./src/img/shutdown.png");
     JLabel label = new JLabel(imageIcon);
-    label.setBounds((int)(getWidth()*0.095), getHeight()/3*2, imageIcon.getIconWidth(), imageIcon.getIconWidth());
+    label.setBounds((int) (getWidth() * 0.095), getHeight() / 3 * 2, imageIcon.getIconWidth(),
+        imageIcon.getIconWidth());
     label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     label.addMouseListener(new MouseAdapter() {
       @Override
@@ -201,12 +204,12 @@ public class Game extends JFrame
     });
     mainPanel.add(label);
 
-
-    //? source icon
-    //todo: edit the "openURL" to our source file
+    // ? source icon
+    // todo: edit the "openURL" to our source file
     ImageIcon sourceIcon = new ImageIcon("./src/img/open-source.png");
     JLabel label_sourceIcon = new JLabel(sourceIcon);
-    label_sourceIcon.setBounds((int)(getWidth()*0.81), getHeight()/3*2, sourceIcon.getIconWidth(), sourceIcon.getIconWidth());
+    label_sourceIcon.setBounds((int) (getWidth() * 0.81), getHeight() / 3 * 2, sourceIcon.getIconWidth(),
+        sourceIcon.getIconWidth());
     label_sourceIcon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
     label_sourceIcon.addMouseListener(new MouseAdapter() {
       @Override
@@ -220,31 +223,45 @@ public class Game extends JFrame
           if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
             desktop.browse(uri);
-          } else System.out.println("Desktop is not supported.");
+          } else
+            System.out.println("Desktop is not supported.");
 
         } catch (IOException | URISyntaxException ex) {
-            ex.printStackTrace();
+          ex.printStackTrace();
         }
-       }
+      }
     });
     mainPanel.add(label_sourceIcon);
 
-
-    //? (windows/mac) menu bar icon
+    // ? (windows/mac) menu bar icon
     ImageIcon guileIcon = new ImageIcon("./src/img/guile.png");
     JLabel label_guileIcon = new JLabel(guileIcon);
-    label_guileIcon.setBounds((int)(getWidth()*0.72), (int)(getHeight()*0.23), guileIcon.getIconWidth(), guileIcon.getIconWidth());
+    label_guileIcon.setBounds((int) (getWidth() * 0.72), (int) (getHeight() * 0.23), guileIcon.getIconWidth(),
+        guileIcon.getIconWidth());
     mainPanel.add(label_guileIcon);
-
-
+    
+    if(settingScreenInstance != null) {
+      settingScreenInstance.setVisible(false);
+    }
+    mainPanel.setVisible(true);
     this.add(mainPanel);
     this.revalidate();
     this.repaint();
   }
 
+  public void showSettingScreen() {
+    if (settingScreenInstance == null) {
+      settingScreenInstance = new settingScreen(this);
+      settingScreenInstance.setBounds(0, 0, 1280, 720); // 確保設定頁面大小正確
+      this.add(settingScreenInstance);
+    }
+    settingScreenInstance.setVisible(true);
+    mainPanel.setVisible(false); // 隱藏主畫面
+    this.revalidate();
+    this.repaint();
+  }
 
-  public static void main(String[] args)
-  {
+  public static void main(String[] args) {
     Game game = new Game();
   }
 }

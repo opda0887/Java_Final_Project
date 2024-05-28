@@ -12,10 +12,10 @@ public class Tools {
 
   /*
    * Play another bgm (for example):
-      Tools.stopBGM();
-      Tools.playGameBGM();
+   * Tools.stopBGM();
+   * Tools.playGameBGM();
    * Play click sound effect
-      Tools.basicClick_SE();
+   * Tools.basicClick_SE();
    */
 
   public static void playMainBGM() {
@@ -29,17 +29,17 @@ public class Tools {
       clip.start();
       clip.loop(Clip.LOOP_CONTINUOUSLY);
     } catch (LineUnavailableException e) {
-        // Handle LineUnavailableException
-        e.printStackTrace();
+      // Handle LineUnavailableException
+      e.printStackTrace();
     } catch (MalformedURLException e) {
-        // Handle MalformedURLException
-        e.printStackTrace();
+      // Handle MalformedURLException
+      e.printStackTrace();
     } catch (UnsupportedAudioFileException e) {
-        // Handle UnsupportedAudioFileException
-        e.printStackTrace();
+      // Handle UnsupportedAudioFileException
+      e.printStackTrace();
     } catch (IOException e) {
-        // Handle IOException
-        e.printStackTrace();
+      // Handle IOException
+      e.printStackTrace();
     }
   }
 
@@ -54,17 +54,17 @@ public class Tools {
       clip.start();
       clip.loop(Clip.LOOP_CONTINUOUSLY);
     } catch (LineUnavailableException e) {
-        // Handle LineUnavailableException
-        e.printStackTrace();
+      // Handle LineUnavailableException
+      e.printStackTrace();
     } catch (MalformedURLException e) {
-        // Handle MalformedURLException
-        e.printStackTrace();
+      // Handle MalformedURLException
+      e.printStackTrace();
     } catch (UnsupportedAudioFileException e) {
-        // Handle UnsupportedAudioFileException
-        e.printStackTrace();
+      // Handle UnsupportedAudioFileException
+      e.printStackTrace();
     } catch (IOException e) {
-        // Handle IOException
-        e.printStackTrace();
+      // Handle IOException
+      e.printStackTrace();
     }
   }
 
@@ -81,22 +81,23 @@ public class Tools {
       // Attempt to get a Clip object
       click_SE = AudioSystem.getClip();
       // Open the audio input stream
-      AudioInputStream inputStream = AudioSystem.getAudioInputStream(new URL("file:./src/audio/basic-mouse-click-SE.wav"));
+      AudioInputStream inputStream = AudioSystem
+          .getAudioInputStream(new URL("file:./src/audio/basic-mouse-click-SE.wav"));
       click_SE.open(inputStream);
       // Start playing the clip and loop continuously
       click_SE.start();
     } catch (LineUnavailableException e) {
-        // Handle LineUnavailableException
-        e.printStackTrace();
+      // Handle LineUnavailableException
+      e.printStackTrace();
     } catch (MalformedURLException e) {
-        // Handle MalformedURLException
-        e.printStackTrace();
+      // Handle MalformedURLException
+      e.printStackTrace();
     } catch (UnsupportedAudioFileException e) {
-        // Handle UnsupportedAudioFileException
-        e.printStackTrace();
+      // Handle UnsupportedAudioFileException
+      e.printStackTrace();
     } catch (IOException e) {
-        // Handle IOException
-        e.printStackTrace();
+      // Handle IOException
+      e.printStackTrace();
     }
   }
 
@@ -105,24 +106,42 @@ public class Tools {
       // Attempt to get a Clip object
       click_SE = AudioSystem.getClip();
       // Open the audio input stream
-      AudioInputStream inputStream = AudioSystem.getAudioInputStream(new URL("file:./src/audio/guile-mouse-click-SE.wav"));
+      AudioInputStream inputStream = AudioSystem
+          .getAudioInputStream(new URL("file:./src/audio/guile-mouse-click-SE.wav"));
       click_SE.open(inputStream);
       // Start playing the clip and loop continuously
       click_SE.start();
     } catch (LineUnavailableException e) {
-        // Handle LineUnavailableException
-        e.printStackTrace();
+      // Handle LineUnavailableException
+      e.printStackTrace();
     } catch (MalformedURLException e) {
-        // Handle MalformedURLException
-        e.printStackTrace();
+      // Handle MalformedURLException
+      e.printStackTrace();
     } catch (UnsupportedAudioFileException e) {
-        // Handle UnsupportedAudioFileException
-        e.printStackTrace();
+      // Handle UnsupportedAudioFileException
+      e.printStackTrace();
     } catch (IOException e) {
-        // Handle IOException
-        e.printStackTrace();
+      // Handle IOException
+      e.printStackTrace();
     }
   }
 
+  public static void adjustVolume(float adjustValue) {
+    if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+      FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+      float newVolume = volume.getValue() + adjustValue;
+      float minVolume = volume.getMinimum();
+      float maxVolume = volume.getMaximum();
+
+      if (newVolume < minVolume) {
+        newVolume = minVolume;
+      } else if (newVolume > maxVolume) {
+        newVolume = maxVolume;
+      }
+      volume.setValue(newVolume);
+    } else {
+      System.out.println("Volume control not supported");
+    }
+  }
 
 }
