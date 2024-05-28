@@ -1,31 +1,33 @@
 import javax.swing.*;        
 import java.awt.*;             
-import java.awt.event.*;   
-import javax.swing.border.*;
-import java.lang.Thread;
-import java.util.concurrent.CountDownLatch;
-
+import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+
 
 public class startGameScreen {
     // constant 
     private static int frameWidth = 1280;
     private static int frameHeight = 720;
-    private static int timePerGame = 3; // 60
+    private static int timePerGame = 60; // 60
     private static int targetWideh = 200;
     private static int targetHeight = 120;
-    private static Rectangle TimeLabelPositionAndSize = new Rectangle(500, 100, 300,100);
-    private static Rectangle ScoreLabelPositionAndSize = new Rectangle(750, 100, 300,100);
-    private static Rectangle pauseButtonPositionAndSize = new Rectangle(20, 20, 200,200);
-    private static Font labelFont = new Font("Microsoft YaHei", Font.BOLD, 24);
+    private static Rectangle TimeLabelPositionAndSize = new Rectangle(750, 5, 400,100);
+    private static Rectangle ScoreLabelPositionAndSize = new Rectangle(1100, 5, 400,100);
+    private static Rectangle pauseButtonPositionAndSize = new Rectangle(10, 10, 150,150);
+    private static Font labelFont = new Font("Microsoft YaHei", Font.BOLD, 40);
     private static float lighteningFactoe = 0.5f;
+    private static float pauseIconScaleRate = 2.0f;
 
     private static String pathIWin = "./src/img/iwin.png";
     private static ImageIcon backgroundImage = new ImageIcon("./src/img/battle-background.png"); 
     private static ImageIcon darkerBackgroundImage = new ImageIcon(decreaseBrightness(backgroundImage.getImage(), lighteningFactoe));  
     private static ImageIcon iWin = new ImageIcon(pathIWin); 
     private static ImageIcon pauseIcon = new ImageIcon("./src/img/pause.png"); 
+    private static ImageIcon biggerPauseIcon = getScaledImageIcon(pauseIcon, pauseIconScaleRate);
+    private static ImageIcon aronaIcon = new ImageIcon("./src/img/arona.png");
     
     // Function to decrease brightness of an image
     private static BufferedImage decreaseBrightness(Image image, float factor) {
@@ -41,6 +43,15 @@ public class startGameScreen {
         return darkerImage;
     }
 
+    // function to scale icon
+    private static ImageIcon getScaledImageIcon(ImageIcon theImageIcon, float ScaledRate) {
+        Image theImage = theImageIcon.getImage();
+        int newWidth = theImageIcon.getIconWidth() * 2;
+        int newHeight = theImageIcon.getIconHeight() * 2;
+        Image scaledImage = theImage.getScaledInstance(newWidth,newHeight,Image.SCALE_DEFAULT);
+        return new ImageIcon(scaledImage);
+    }
+
 
     // CALL to START
     public static void startGame(){
@@ -54,38 +65,46 @@ public class startGameScreen {
         private boolean waitEnd = false;
         private boolean pausing = false;
         // objects in gameFrame
-        // TODO: JLayeredPane maybe?
+                                                        //  JLayeredPane maybe?
         private int timeLeft;
         private int score;
+        private JLabel waitText = new JLabel();
+        private JLabel waitText2 = new JLabel();
         private JLabel timeLabel = new JLabel();
         private JLabel scoreLabel = new JLabel();
         private JLabel background = new JLabel();
         //private JLabel darkerBackground = new JLabel();
         private JLabel target = new JLabel();
         private JLabel pauseButton = new JLabel();
+        private JLabel arona = new JLabel();
         
-        private Timer timer = new Timer(1000, new ActionListener() {
+        private Timer timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 timeLeft--;
-                timeLabel.setText("剩餘時間 : " + timeLeft);
+                timeLabel.setText("剩餘時間 : " + (timeLeft+9)/10);
+                System.out.println(timeLeft);
                 if(timeLeft <= 0) {
                     pausing = true;
                     timer.stop();
+                    background.setIcon(darkerBackgroundImage);
+
+                     // change if you think not remove better better
+                    background.remove(target); 
+                    background.remove(pauseButton); 
+                    background.remove(timeLabel);
+                    background.remove(scoreLabel);
+
+                    arona.setVisible(true);                    
                     showEndMenu();
                 }
             }
         });
 
-
-
         public NewGame()    
         {
+            pre();
             init();
-
-            //waitingScene();
-            // addComponents();
-            // timer.start();
         }
 
         private void init()
@@ -100,14 +119,13 @@ public class startGameScreen {
             this.setVisible(true);
 
             // init
-            timeLeft = timePerGame;
+            timeLeft = timePerGame * 10;
             score = 0;
-
             
             // Background Image 
             background = new JLabel(darkerBackgroundImage);
             background.setSize(frameWidth,frameHeight);
-            //! this is weird I know
+            // this is weird I know
             background.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -117,9 +135,25 @@ public class startGameScreen {
                         addComponents();
                         timer.start();
                         background.setIcon(backgroundImage);
+                        background.remove(waitText);
+                        background.remove(waitText2);
                     }
                 }
             });
+
+            // wait Text
+            waitText.setText("點擊滑鼠左鍵");
+            waitText.setBounds(new Rectangle(460,60,500,500));
+            waitText.setFont(new Font("Microsoft YaHei", Font.BOLD, 65));
+            waitText.setForeground(Color.WHITE);
+            background.add(waitText, BorderLayout.PAGE_START);
+
+            waitText2.setText("   開始遊戲  ");
+            waitText2.setBounds(new Rectangle(460,200,500,500));
+            waitText2.setFont(new Font("Microsoft YaHei", Font.BOLD, 65));
+            waitText2.setForeground(Color.WHITE);
+            background.add(waitText2, BorderLayout.PAGE_START);
+
 
             this.add(background);
         }
@@ -127,16 +161,19 @@ public class startGameScreen {
         private void addComponents()
         {
             // time Label
-            timeLabel.setText("剩餘時間 : " + timeLeft);
+            timeLabel.setText("剩餘時間 : " + (timeLeft+9)/10);
             timeLabel.setBounds(TimeLabelPositionAndSize);
             timeLabel.setFont(labelFont);
+            timeLabel.setForeground(Color.WHITE); 
             background.add(timeLabel, BorderLayout.PAGE_START);
 
             // Score Label 
             scoreLabel.setText("分數 : " + score);
             scoreLabel.setBounds(ScoreLabelPositionAndSize);
             scoreLabel.setFont(labelFont);
+            scoreLabel.setForeground(Color.WHITE); 
             background.add(scoreLabel, BorderLayout.PAGE_START);
+
 
             // target 
             target = new JLabel(iWin);
@@ -158,7 +195,7 @@ public class startGameScreen {
             background.add(target, BorderLayout.PAGE_START);
 
             // Pause Button
-            pauseButton = new JLabel(pauseIcon);
+            pauseButton = new JLabel(biggerPauseIcon);
             pauseButton.setBounds(pauseButtonPositionAndSize);
             pauseButton.addMouseListener(new MouseAdapter() {
                 @Override
@@ -167,169 +204,221 @@ public class startGameScreen {
                     if(timeLeft == 0 || pausing ==true) return;
                     timer.stop();
                     pausing = true;
+                    background.setIcon(darkerBackgroundImage);
                     showPauseMenu();
                     pausing = false;
                     timer.start();
                 }
             });
             background.add(pauseButton, BorderLayout.PAGE_START);
+
+
+            // arona.png
+            arona.setIcon(aronaIcon);
+            arona.setBounds(200,50,300,300);
+            arona.setVisible(false);             
+            background.add(arona, BorderLayout.PAGE_START);
         }
-        
-        
-        //private void waitingScene() 
-        
 
-        //! stiil in test
-        //! need beautify
-        // show Pause menu
-        private void showPauseMenu() 
+        //! ///////////////////////////////////////////////////////////////////////////////////////
+
+        JDialog pauseDialog = new JDialog();    
+        JPanel pauseMenu = new JPanel();
+        JDialog scoreDialog = new JDialog();    
+        JPanel scoreMenu = new JPanel();
+        // Set the preferred size for the pause menu
+        int menuWidth = 450;
+        int menuHeight = 450;
+        // Button dimensions
+        int buttonWidth = 300;
+        int buttonHeight = 70;
+        Dimension buttonSize = new Dimension(buttonWidth, buttonHeight);
+
+        private void pre()
         {
-            JDialog pauseDialog = new JDialog(this, "Pause Menu", true);
-            pauseDialog.setSize(300, 150);
-            pauseDialog.setLocationRelativeTo(this);
+            // Set the layout manager to BoxLayout with vertical alignment
+            pauseMenu.setLayout(new BoxLayout(pauseMenu, BoxLayout.Y_AXIS));
+            pauseMenu.setPreferredSize(new Dimension(menuWidth, menuHeight));
 
-            JPanel dialogPanel = new JPanel();
-            dialogPanel.setLayout(new GridLayout(3, 1));
+            // label
+            JLabel theLabel = new JLabel();
+            theLabel.setText("暫停");
+            theLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            theLabel.setFont(labelFont);
+            theLabel.setForeground(Color.BLACK); 
 
-            JLabel pauseLabel = new JLabel("Paused", SwingConstants.CENTER);
-            dialogPanel.add(pauseLabel);
-
-            JButton continueButton = new JButton("Continue");
-            continueButton.addActionListener(new ActionListener() {
+            // button 1
+            JButton button1 = new JButton("繼續遊戲");
+            button1.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button1.setPreferredSize(buttonSize); 
+            button1.setMaximumSize(buttonSize);   
+            button1.setFont(labelFont);  
+            button1.setForeground(Color.WHITE);  
+            button1.setBackground(Color.BLUE);   
+            button1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+            button1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    pauseDialog.dispose();
+                    Tools.basicClick_SE();
+                    background.setIcon(backgroundImage);
+                    pauseDialog.setVisible(false);
                     timer.start();
                     pausing = false;
                 }
             });
-            dialogPanel.add(continueButton);
 
-            JButton backToMenuButton = new JButton("Back to Menu");
-            backToMenuButton.addActionListener(new ActionListener() {
+            // button 2
+            JButton button2 = new JButton("回到標題");
+            button2.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button2.setPreferredSize(buttonSize); 
+            button2.setMaximumSize(buttonSize);    
+            button2.setFont(labelFont); 
+            button2.setForeground(Color.WHITE); 
+            button2.setBackground(Color.DARK_GRAY);  
+            button2.setBorder(BorderFactory.createLineBorder(Color.WHITE));  
+            button2.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    Tools.basicClick_SE();
+                    //! this is to fix a weird bug if game.java use timer or sth
+                    timer = new Timer(1000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {}
+                    });
+                    pauseDialog.setVisible(false);
                     gameEnd();
                 }
             });
-            dialogPanel.add(backToMenuButton);
+        
+            // Add components with glue for spacing
+            pauseMenu.add(Box.createVerticalGlue());
+            pauseMenu.add(theLabel);
+            pauseMenu.add(Box.createVerticalGlue());
+            pauseMenu.add(button1);
+            pauseMenu.add(Box.createVerticalGlue());
+            pauseMenu.add(button2);
+            pauseMenu.add(Box.createVerticalGlue());
 
-            pauseDialog.add(dialogPanel);
+            // Add the pauseMenu to a dialog or another container to show it
+            pauseDialog.setUndecorated(true);  // Remove the title bar
+            pauseDialog.setModal(true);        // Block input to other windows
+            pauseDialog.getContentPane().add(pauseMenu);
+            pauseDialog.pack();
+            pauseDialog.setLocationRelativeTo(null); // Center the dialog
+            pauseDialog.setVisible(false);
+        }
+
+        private void build()
+        {
+            // Set the layout manager to BoxLayout with vertical alignment
+            scoreMenu.setLayout(new BoxLayout(scoreMenu, BoxLayout.Y_AXIS));
+            scoreMenu.setPreferredSize(new Dimension(menuWidth, menuHeight));
+
+            // label
+            JLabel theLabel = new JLabel("分數:" + score);
+            theLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            theLabel.setFont(labelFont);
+            theLabel.setForeground(Color.BLACK); 
+
+            // button 1
+            JButton button1 = new JButton("再玩一次");
+            button1.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button1.setPreferredSize(buttonSize); 
+            button1.setMaximumSize(buttonSize);   
+            button1.setFont(labelFont);  
+            button1.setForeground(Color.WHITE);  
+            button1.setBackground(Color.BLUE);   
+            button1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+            button1.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Tools.basicClick_SE();
+                    scoreDialog.dispose();
+                    dispose();
+                    startGameScreen.startGame();
+                }
+            });
+
+            // button 2
+            JButton button2 = new JButton("回到標題");
+            button2.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button2.setPreferredSize(buttonSize); 
+            button2.setMaximumSize(buttonSize);    
+            button2.setFont(labelFont); 
+            button2.setForeground(Color.WHITE); 
+            button2.setBackground(Color.DARK_GRAY);  
+            button2.setBorder(BorderFactory.createLineBorder(Color.WHITE));  
+            button2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Tools.basicClick_SE();
+                    //! this is to fix a weird bug if game.java use timer or sth
+                    timer = new Timer(1000, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {}
+                    });
+                    scoreDialog.setVisible(false);
+                    gameEnd();
+                }
+            });
+
+            // Add components with glue for spacing
+            scoreMenu.add(Box.createVerticalGlue());
+            scoreMenu.add(theLabel);
+            scoreMenu.add(Box.createVerticalGlue());
+            scoreMenu.add(button1);
+            scoreMenu.add(Box.createVerticalGlue());
+            scoreMenu.add(button2);
+            scoreMenu.add(Box.createVerticalGlue());
+            
+            // Add the pauseMenu to a dialog or another container to show it
+            scoreDialog.setUndecorated(true);  // Remove the title bar
+            scoreDialog.setModal(true);        // Block input to other windows
+            scoreDialog.getContentPane().add(scoreMenu);
+            scoreDialog.pack();
+            scoreDialog.setLocationRelativeTo(null); // Center the dialog
+            scoreDialog.setVisible(false);
+        }
+
+
+
+        // show Pause menu
+        private void showPauseMenu() {
             pauseDialog.setVisible(true);
         }
 
-
-        //! stiil in test
-        //! need beautify
         //show Score
-        /*
         public void showEndMenu() {
-            // Create a panel to hold components
-            JPanel panel = new JPanel(new BorderLayout());
-    
-            // Add score label
-            JLabel scoreLabel = new JLabel("Score: " + score);
-            panel.add(scoreLabel, BorderLayout.NORTH);
-    
-            // Create buttons
-            JButton restartButton = new JButton("Restart");
-            JButton menuButton = new JButton("Back to Menu");
-    
-            // Add buttons to a sub-panel
-            JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
-            buttonPanel.add(restartButton);
-            buttonPanel.add(menuButton);
-            panel.add(buttonPanel, BorderLayout.CENTER);
-    
-            // Add action listeners
-            restartButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Window window = SwingUtilities.windowForComponent(restartButton);
-                    if (window instanceof JDialog) {
-                        ((JDialog) window).dispose();
-                    }
-                    timer.stop();
-                    dispose();
-                    NewGame newGame = new NewGame();
-                }
-            });
-    
-            menuButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Window window = SwingUtilities.windowForComponent(restartButton);
-                    if (window instanceof JDialog) {
-                        ((JDialog) window).dispose();
-                    }
-                    gameEnd();
-                }
-            });
-    
-            // Show dialog
-            JOptionPane.showMessageDialog(null, panel, "Game Over", JOptionPane.PLAIN_MESSAGE);
+            build();
+            scoreDialog.setVisible(true);
         }
-    */
-        public void showEndMenu() {
-            // Create a panel to hold components
-            JPanel panel = new JPanel(new BorderLayout());
-    
-            // Add score label
-            JLabel scoreLabel = new JLabel("Score: " + score);
-            panel.add(scoreLabel, BorderLayout.NORTH);
-    
-            // Create buttons
-            JButton restartButton = new JButton("Restart");
-            JButton menuButton = new JButton("Back to Menu");
-    
-            // Add buttons to a sub-panel
-            JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
-            buttonPanel.add(restartButton);
-            buttonPanel.add(menuButton);
-            panel.add(buttonPanel, BorderLayout.CENTER);
-    
-            // Show dialog
-            JOptionPane optionPane = new JOptionPane(panel, JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
-            JDialog dialog = optionPane.createDialog("Game Over");
-            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-    
-            // Add action listeners
-            restartButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialog.dispose();
-                    gameEnd();
-                }
-            });
-    
-            menuButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    dialog.dispose();
-                    timer.stop();
-                    dispose();
-                    NewGame newGame = new NewGame();
-                }
-            });
-    
-            dialog.setVisible(true);
-    
-            // Detect if the dialog is closed
-            dialog.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    gameEnd();
-                }
-            });
-        }
-
 
         private void gameEnd()
         {
             timer.stop();
             Tools.stopBGM();
-            Game game = new Game();
             dispose();
+            Game game = new Game();
         }
     }
 }
+
+/*
+// make round corner (not used now)
+class RoundedRectanglePanel extends JPanel {
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        int width = getWidth();
+        int height = getHeight();
+        int arcWidth = 20; 
+        int arcHeight = 20; 
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(Color.BLUE);
+        g2d.fillRoundRect(50, 50, width - 100, height - 100, arcWidth, arcHeight);
+    }
+}*/
