@@ -35,12 +35,12 @@ public class settingScreen extends JPanel {
                 g2d.drawImage(background.getImage(), 0, 0, getWidth(), getHeight(), null);
                 Font font = new Font("Microsoft YaHei", Font.BOLD, 55);
                 int textWidth = g2d.getFontMetrics(font).stringWidth("關於我們");
-                drawText("關於我們", font, g2d, getWidth() / 2 - textWidth / 2, getHeight() / 3*2, 4);
+                Tools.drawText("關於我們", font, g2d, getWidth() / 2 - textWidth / 2, getHeight() / 3*2, 4);
 
                 font = new Font("Microsoft YaHei", Font.BOLD, 30);
-                drawText("減小音量", font, g2d, getWidth()/18*2 , getHeight()/20*17, 3);
+                Tools.drawText("減小音量", font, g2d, getWidth()/18*2 , getHeight()/20*17, 3);
                 textWidth = g2d.getFontMetrics(font).stringWidth("提升音量");
-                drawText("提升音量", font, g2d, getWidth()/18*16 - textWidth, getHeight()/20*17, 3);
+                Tools.drawText("提升音量", font, g2d, getWidth()/18*16 - textWidth, getHeight()/20*17, 3);
             }
         };
         panel.setLayout(null);
@@ -104,23 +104,6 @@ public class settingScreen extends JPanel {
         return panel;
     }
 
-    private void drawText(String text, Font font, Graphics2D g2d, int x, int y, int border_width){
-        g2d.setFont(font);
-        // 描邊文本（黑色）
-        g2d.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(border_width)); // 設置描邊寬度
-        FontRenderContext frc = g2d.getFontRenderContext();
-        TextLayout tl = new TextLayout(text, font, frc);
-        Shape shape = tl.getOutline(null);
-        g2d.translate(x, y);
-        g2d.draw(shape);
-
-        // 填充文本（白色）
-        g2d.setColor(Color.WHITE);
-        g2d.fill(shape); // 填充文本
-        g2d.translate(-x, -y);
-    }
-
     private JLabel drawIcon(String path, int x, int y, int width, int height){
         ImageIcon icon = new ImageIcon(path);
         Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH); // 指定新的宽度和高度
@@ -131,6 +114,4 @@ public class settingScreen extends JPanel {
         return label;
     }
 
-
-    
 }

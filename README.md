@@ -6,12 +6,12 @@
 2. 點擊綠色的 **Code** 按鈕，並再繼續點擊 **Download zip** 來下載遊戲壓縮檔。
    <img src="https://i.imgur.com/ewxoDZA.png">
 
-3. 將壓縮檔解壓縮後，雙擊兩下名為 **BlueShooting** 的檔案即可運行遊戲。
+3. 將壓縮檔解壓縮後，雙擊兩下名為 **BlueShooting_forWindows** 或是 **BlueShooting_forMac** 的檔案即可運行遊戲。<span style="color:red">**依照您的電腦系統而定**</span>。
 
 ### 👀 - **遊戲畫面 (Preview)**：
 
 - 主畫面
-  <img src="https://i.imgur.com/8sojjWY.png">
+  <img src="https://i.imgur.com/1Muk82G.png">
 - 設定畫面
   <img src="https://i.imgur.com/uMvurCI.png">
 - 遊戲畫面
@@ -22,7 +22,7 @@
 
 ### 🏣 - 分工表 (Division of Work)
 
-  <img src="https://i.imgur.com/mPptrrB.jpeg">
+  <img src="https://i.imgur.com/02u1N7e.png">
 
 ### 🌳 - 環境設定 & 推薦安裝的 VSCode 工具 (Env Setting & recommend exttensions)
 

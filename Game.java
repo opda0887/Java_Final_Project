@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.*;
 
 public class Game extends JFrame {
-  static int current_score = 0;
   private settingScreen settingScreenInstance;
   private JPanel mainPanel;
 
@@ -16,6 +15,8 @@ public class Game extends JFrame {
     // * code below it's for Full screen (but the align will be reassembled)
     // Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     // this.setSize(screenSize);
+
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     this.setUndecorated(true);
     this.setVisible(true);
@@ -49,22 +50,15 @@ public class Game extends JFrame {
         g2d.drawImage(background1.getImage(), 0, 0, getWidth(), getHeight(), null);
 
         // Set text color with alpha value
-        g2d.setColor(new Color(245, 241, 210, 255));
-        g2d.setFont(new Font("Microsoft YaHei", Font.BOLD, 30));
+        Font font = new Font("Microsoft YaHei", Font.BOLD, 30);
 
         String text = "結束遊戲";
-        FontMetrics fm = g2d.getFontMetrics();
-        int textWidth = fm.stringWidth(text);
-        int x = (getWidth() - textWidth) / 10;
-        int y = getHeight() / 9 * 8;
-        g2d.drawString(text, x, y);
+        int textWidth = g2d.getFontMetrics().stringWidth(text);
+        Tools.drawText(text, font, g2d, (getWidth() - textWidth) / 10, getHeight() / 9 * 8, 3);
 
         String text2 = "使用素材";
-        FontMetrics fm2 = g2d.getFontMetrics();
-        int textWidth2 = fm2.stringWidth(text2);
-        int x2 = (getWidth() - textWidth2) / 11 * 10;
-        int y2 = getHeight() / 9 * 8;
-        g2d.drawString(text2, x2, y2);
+        int textWidth2 =  g2d.getFontMetrics().stringWidth(text2);
+        Tools.drawText(text2, font, g2d, (getWidth() - textWidth2) / 11 * 10, getHeight() / 9 * 8, 3);
       }
     };
 

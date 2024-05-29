@@ -1,6 +1,9 @@
 import java.net.*;
 import javax.sound.sampled.*;
 import java.io.IOException;
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 
 //! You can put all your tool-code in here
 
@@ -155,4 +158,20 @@ public class Tools {
     }
   }
 
+  public static void drawText(String text, Font font, Graphics2D g2d, int x, int y, int border_width){
+    g2d.setFont(font);
+    // 描邊文本（黑色）
+    g2d.setColor(Color.BLACK);
+    g2d.setStroke(new BasicStroke(border_width)); // 設置描邊寬度
+    FontRenderContext frc = g2d.getFontRenderContext();
+    TextLayout tl = new TextLayout(text, font, frc);
+    Shape shape = tl.getOutline(null);
+    g2d.translate(x, y);
+    g2d.draw(shape);
+
+    // 填充文本（白色）
+    g2d.setColor(Color.WHITE);
+    g2d.fill(shape); // 填充文本
+    g2d.translate(-x, -y);
+  }
 }

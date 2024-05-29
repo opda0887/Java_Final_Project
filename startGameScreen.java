@@ -101,6 +101,12 @@ public class startGameScreen {
         {
             pre();
             init();
+            
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            // Set game icon
+            ImageIcon mainIcon = new ImageIcon("./src/img/main_icon.jpg");
+            this.setIconImage(mainIcon.getImage());
         }
 
         private void init()
