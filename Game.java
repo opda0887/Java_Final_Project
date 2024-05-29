@@ -139,7 +139,7 @@ public class Game extends JFrame {
       public void mouseClicked(MouseEvent e) {
         Tools.basicClick_SE();
         // open an url
-        String url = "https://drive.google.com/file/d/1uw0RTlfHrCr8YSuHjyApYu3aXGAHpTTX/view?usp=drive_link";
+        String url = "https://drive.google.com/file/d/1-kNjh3whzagxxpjxfTtkTj2KJjX3YMYX/view?usp=sharing";
         try {
           URI uri = new URI(url);
 

@@ -72,7 +72,7 @@ public class startGameScreen {
         private JLabel timeLabel = new JLabel();
         private JLabel scoreLabel = new JLabel();
         private JButton target = new JButton(iWin);
-        private JLabel pauseButton = new JLabel();
+        private JButton pauseButton = new JButton();
         private JLabel arona = new JLabel();
         
         private Timer timer = new Timer(100, new ActionListener() {
@@ -175,6 +175,7 @@ public class startGameScreen {
             // JButton target = new JButton(iWin);
             target.setSize(targetWideh, targetHeight);
             target.setLocation((frameWidth - targetWideh) / 2, (frameHeight - targetHeight) / 2); // set to mid
+            target.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             // 設置按鈕外框與背景不可見，只保留圖片
             target.setBorderPainted(false);
             target.setContentAreaFilled(false);
@@ -196,8 +197,14 @@ public class startGameScreen {
             background.add(target, BorderLayout.PAGE_START);
 
             // Pause Button
-            pauseButton = new JLabel(biggerPauseIcon);
+            pauseButton = new JButton(biggerPauseIcon);
             pauseButton.setBounds(pauseButtonPositionAndSize);
+            pauseButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            // 設置按鈕外框與背景不可見，只保留圖片
+            pauseButton.setBorderPainted(false);
+            pauseButton.setContentAreaFilled(false);
+            pauseButton.setFocusPainted(false);
+            pauseButton.setOpaque(false);
             pauseButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -338,12 +345,13 @@ public class startGameScreen {
 
             // button 1
             JButton button1 = new JButton("再玩一次");
+            Color customColor = new Color(0, 150, 255);
             button1.setAlignmentX(Component.CENTER_ALIGNMENT);
             button1.setPreferredSize(buttonSize); 
             button1.setMaximumSize(buttonSize);   
             button1.setFont(labelFont);  
+            button1.setBackground(customColor);   
             button1.setForeground(Color.WHITE);  
-            button1.setBackground(Color.BLUE);   
             button1.setBorder(BorderFactory.createLineBorder(Color.WHITE));
             button1.addActionListener(new ActionListener() {
                 @Override

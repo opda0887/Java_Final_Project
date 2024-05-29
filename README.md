@@ -1,14 +1,28 @@
-# Tutorial(使用教學)📝
+# Tutorial (使用教學)📝
 
-### 🌀 - 執行方法 (Run)
+### 🔰 - 執行方法 (Execute)
 
-在 VScode 的 terminal 中，輸入以下指令，來預覽遊戲畫面：
+1. 先擁有 **Java** 環境 (沒有 Java 者可以到這裡下載)：https://www.java.com/zh-TW/download/
+2. 點擊綠色的 **Code** 按鈕，並再繼續點擊 **Download zip** 來下載遊戲壓縮檔。
+   <img src="https://i.imgur.com/ewxoDZA.png">
 
-```
-cd "absolute\path\to\Java_Final_Project\" ; if ($?) { javac -encoding UTF-8 Game.java } ; if ($?) { java Game }
-```
+3. 將壓縮檔解壓縮後，雙擊兩下名為 **BlueShooting** 的檔案即可運行遊戲。
 
-example: cd "C:\User\peter\Java_Final_Project\" ; ...
+### 👀 - **遊戲畫面 (Preview)**：
+
+- 主畫面
+  <img src="https://i.imgur.com/8sojjWY.png">
+- 設定畫面
+  <img src="https://i.imgur.com/uMvurCI.png">
+- 遊戲畫面
+  <img src="https://i.imgur.com/v8KRkLU.png">
+  <img src="https://i.imgur.com/5iIew01.png">
+  <img src="https://i.imgur.com/budEVkH.png">
+  <img src="https://i.imgur.com/vnGnw8t.png">
+
+### 🏣 - 分工表 (Division of Work)
+
+  <img src="https://i.imgur.com/mPptrrB.jpeg">
 
 ### 🌳 - 環境設定 & 推薦安裝的 VSCode 工具 (Env Setting & recommend exttensions)
 
@@ -19,13 +33,3 @@ example: cd "C:\User\peter\Java_Final_Project\" ; ...
   <img src="https://i.imgur.com/EPHsqno.png">
 - **Language Support for Java(TM) by Red Hat**
   <img src="https://i.imgur.com/mRzqzMe.png">
-
-### 👀 - **設計草圖 (Preview)**：
-
-- 主畫面
-  <img src="https://i.imgur.com/rAOIcCr.png">
-- 設定畫面
-  <img src="https://i.imgur.com/4XKDbE0.png">
-- 遊戲畫面
-  <img src="https://i.imgur.com/7H31RES.png">
-  <img src="https://i.imgur.com/vM9qu42.png">

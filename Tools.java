@@ -20,50 +20,57 @@ public class Tools {
 
   public static void playMainBGM() {
     try {
-      // Attempt to get a Clip object
+      // get Clip
       clip = AudioSystem.getClip();
-      // Open the audio input stream
+      // open the audio input stream
       AudioInputStream inputStream = AudioSystem.getAudioInputStream(new URL("file:./src/audio/main-page-bgm.wav"));
       clip.open(inputStream);
-      // Start playing the clip and loop continuously
+
+      // get the volume control
+      FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+      // countrol the volume
+      float min = volumeControl.getMinimum();
+      float max = volumeControl.getMaximum();
+      float volume = (max - min) * 0.68f + min;
+      volumeControl.setValue(volume);
+
+      // start playing the clip and loop continuously
       clip.start();
       clip.loop(Clip.LOOP_CONTINUOUSLY);
     } catch (LineUnavailableException e) {
-      // Handle LineUnavailableException
-      e.printStackTrace();
+      e.printStackTrace();  // Handle LineUnavailableException
     } catch (MalformedURLException e) {
-      // Handle MalformedURLException
-      e.printStackTrace();
+      e.printStackTrace();  // Handle MalformedURLException
     } catch (UnsupportedAudioFileException e) {
-      // Handle UnsupportedAudioFileException
-      e.printStackTrace();
+      e.printStackTrace();  // Handle UnsupportedAudioFileException
     } catch (IOException e) {
-      // Handle IOException
-      e.printStackTrace();
+      e.printStackTrace();  // Handle IOException
     }
   }
 
   public static void playGameBGM() {
     try {
-      // Attempt to get a Clip object
       clip = AudioSystem.getClip();
-      // Open the audio input stream
       AudioInputStream inputStream = AudioSystem.getAudioInputStream(new URL("file:./src/audio/in-game-bgm.wav"));
       clip.open(inputStream);
-      // Start playing the clip and loop continuously
+
+      // get the volume control
+      FloatControl volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+      // countrol the volume
+      float min = volumeControl.getMinimum();
+      float max = volumeControl.getMaximum();
+      float volume = (max - min) * 0.69f + min;
+      volumeControl.setValue(volume);
+
       clip.start();
       clip.loop(Clip.LOOP_CONTINUOUSLY);
     } catch (LineUnavailableException e) {
-      // Handle LineUnavailableException
       e.printStackTrace();
     } catch (MalformedURLException e) {
-      // Handle MalformedURLException
       e.printStackTrace();
     } catch (UnsupportedAudioFileException e) {
-      // Handle UnsupportedAudioFileException
       e.printStackTrace();
     } catch (IOException e) {
-      // Handle IOException
       e.printStackTrace();
     }
   }
@@ -78,50 +85,54 @@ public class Tools {
 
   public static void basicClick_SE() {
     try {
-      // Attempt to get a Clip object
       click_SE = AudioSystem.getClip();
-      // Open the audio input stream
       AudioInputStream inputStream = AudioSystem
           .getAudioInputStream(new URL("file:./src/audio/basic-mouse-click-SE.wav"));
       click_SE.open(inputStream);
-      // Start playing the clip and loop continuously
+
+      // get the volume control
+      FloatControl volumeControl = (FloatControl) click_SE.getControl(FloatControl.Type.MASTER_GAIN);
+      // countrol the volume
+      float min = volumeControl.getMinimum();
+      float max = volumeControl.getMaximum();
+      float volume = (max - min) * 0.7f + min;
+      volumeControl.setValue(volume);
+
       click_SE.start();
     } catch (LineUnavailableException e) {
-      // Handle LineUnavailableException
       e.printStackTrace();
     } catch (MalformedURLException e) {
-      // Handle MalformedURLException
       e.printStackTrace();
     } catch (UnsupportedAudioFileException e) {
-      // Handle UnsupportedAudioFileException
       e.printStackTrace();
     } catch (IOException e) {
-      // Handle IOException
       e.printStackTrace();
     }
   }
 
   public static void shootClick_SE() {
     try {
-      // Attempt to get a Clip object
       click_SE = AudioSystem.getClip();
-      // Open the audio input stream
       AudioInputStream inputStream = AudioSystem
           .getAudioInputStream(new URL("file:./src/audio/guile-mouse-click-SE.wav"));
       click_SE.open(inputStream);
-      // Start playing the clip and loop continuously
+
+      // get the volume control
+      FloatControl volumeControl = (FloatControl) click_SE.getControl(FloatControl.Type.MASTER_GAIN);
+      // countrol the volume
+      float min = volumeControl.getMinimum();
+      float max = volumeControl.getMaximum();
+      float volume = (max - min) * 0.7f + min;
+      volumeControl.setValue(volume);
+
       click_SE.start();
     } catch (LineUnavailableException e) {
-      // Handle LineUnavailableException
       e.printStackTrace();
     } catch (MalformedURLException e) {
-      // Handle MalformedURLException
       e.printStackTrace();
     } catch (UnsupportedAudioFileException e) {
-      // Handle UnsupportedAudioFileException
       e.printStackTrace();
     } catch (IOException e) {
-      // Handle IOException
       e.printStackTrace();
     }
   }
