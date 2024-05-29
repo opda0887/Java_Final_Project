@@ -9,7 +9,7 @@ public class startGameScreen {
     // constant 
     private static int frameWidth = 1280;
     private static int frameHeight = 720;
-    private static int timePerGame = 60; // 60
+    private static int timePerGame = 10; // original: 60
     private static int targetWideh = 200;
     private static int targetHeight = 120;
     private static Rectangle TimeLabelPositionAndSize = new Rectangle(750, 5, 400,100);
