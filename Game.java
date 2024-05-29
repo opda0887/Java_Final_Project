@@ -26,91 +26,11 @@ public class Game extends JFrame {
     ImageIcon mainIcon = new ImageIcon("./src/img/main_icon.jpg");
     this.setIconImage(mainIcon.getImage());
 
-    // Display loading screen (private)
-    showLoadingScreen();
-
     // main page background music (loop)
     Tools.playMainBGM();
 
     // After loading, switch to main screen (public)
     showMainScreen();
-  }
-
-  // Method to display loading screen with fade-in & fade-out effect
-  private void showLoadingScreen() {
-    JPanel loadingPanel = new JPanel() {
-      float alpha = 0; // Initial alpha value for fade-in effect
-      private boolean fadeInComplete = false; // for fade-in, fade-out
-
-      @Override
-      protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g.create();
-        // Set background color and fill the panel
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, getWidth(), getHeight());
-        // Set text color with alpha value
-        g2d.setColor(new Color(255, 0, 0, (int) (255 * alpha)));
-        g2d.setFont(new Font("Microsoft YaHei", Font.BOLD, 30));
-
-        String text = "本遊戲無商業用途，僅供盡情遊玩！";
-        FontMetrics fm = g2d.getFontMetrics();
-        int textWidth = fm.stringWidth(text);
-        int x = (getWidth() - textWidth) / 2;
-        int y = getHeight() / 2;
-        g2d.drawString(text, x, y);
-
-        g2d.dispose(); // Dispose of the graphics context
-      }
-
-      @Override
-      public void paint(Graphics g) {
-        super.paint(g);
-        // fade-in : 漸變淡入
-        if (!fadeInComplete && alpha < 1) {
-          alpha += 0.02f;
-          if (alpha >= 1) {
-            alpha = 1;
-            fadeInComplete = true;
-            try {
-              Thread.sleep(1500);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-          }
-        } else if (fadeInComplete) {
-          // fade-out : 漸變淡出
-          alpha -= 0.02f;
-          if (alpha <= 0) {
-            alpha = 0;
-            try {
-              Thread.sleep(500);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            }
-            return;
-          }
-        }
-
-        try {
-          Thread.sleep(10); // for a smoother effect
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-        repaint(); // repaint to adjust the alpha value
-      }
-    };
-
-    // Add the loadingPanel to the JFrame
-    this.add(loadingPanel);
-    this.revalidate();
-    this.repaint();
-    try {
-      Thread.sleep(3150); // Wait for 3.2 seconds
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    this.remove(loadingPanel);
   }
 
   // Method to show main screen
@@ -152,7 +72,7 @@ public class Game extends JFrame {
 
     // ? start button
     JButton startButton = new JButton("開始遊戲");
-    Color customColor = new Color(100, 150, 200);
+    Color customColor = new Color(100, 149, 237);
     startButton.setBackground(customColor);
     startButton.setForeground(Color.WHITE);
     startButton.setFont(new Font("Microsoft YaHei", Font.BOLD, 30));
@@ -163,7 +83,9 @@ public class Game extends JFrame {
         Tools.basicClick_SE();
         Tools.stopBGM();
         Tools.playGameBGM(); // if has problem while switching pannel, then you can delete it
-        // * enterGameScreen();
+        // * enterGameScreen;
+        startGameScreen.startGame();
+        dispose();
       }
     });
     mainPanel.add(startButton);
@@ -173,7 +95,8 @@ public class Game extends JFrame {
 
     // ? setting button
     JButton settingButton = new JButton("設定");
-    settingButton.setBackground(Color.GRAY);
+    Color customColor2 = new Color(90, 94, 95);
+    settingButton.setBackground(customColor2);
     settingButton.setForeground(Color.WHITE);
     settingButton.setFont(new Font("Microsoft YaHei", Font.BOLD, 30));
     settingButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -182,7 +105,7 @@ public class Game extends JFrame {
       public void actionPerformed(ActionEvent e) {
         Tools.basicClick_SE();
         showSettingScreen();
-        // * enterSettingScreen();
+        // * enterSettingScreen;
       }
     });
     mainPanel.add(settingButton);
@@ -216,7 +139,7 @@ public class Game extends JFrame {
       public void mouseClicked(MouseEvent e) {
         Tools.basicClick_SE();
         // open an url
-        String url = "https://www.youtube.com";
+        String url = "https://drive.google.com/file/d/1uw0RTlfHrCr8YSuHjyApYu3aXGAHpTTX/view?usp=drive_link";
         try {
           URI uri = new URI(url);
 

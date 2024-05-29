@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 public class settingScreen extends JPanel {
@@ -58,7 +61,20 @@ public class settingScreen extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Tools.basicClick_SE();
-                //todo
+                // open an url
+                String url = "https://drive.google.com/file/d/16AL36hF5lRQxVLuMa3l5mcCaE_yljYZ0/view?usp=sharing";
+                try {
+                URI uri = new URI(url);
+
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    desktop.browse(uri);
+                } else
+                    System.out.println("Desktop is not supported.");
+
+                } catch (IOException | URISyntaxException ex) {
+                ex.printStackTrace();
+                }
             }
         });
 
