@@ -8,6 +8,8 @@
 
 3. 將壓縮檔解壓縮後，雙擊兩下名為 **BlueShooting_forWindows** 或是 **BlueShooting_forMac** 的檔案即可運行遊戲。<span style="color:red">**依照您的電腦系統而定**</span>。
 
+4. 若遇到編譯問題，可參考下面文章：https://medium.com/@sadw1230/java%E7%AD%86%E8%A8%98-%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8%E8%A8%AD%E7%BD%AE-4a40daec2c03
+
 ### 👀 - **遊戲畫面 (Preview)**：
 
 - 主畫面
